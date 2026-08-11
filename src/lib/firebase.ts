@@ -1,12 +1,28 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore, doc, getDocFromServer } from 'firebase/firestore';
-import firebaseConfig from '../../firebase-applet-config.json';
+
+// @ts-ignore
+import appletConfigJson from '../../firebase-applet-config.json';
+
+const appletConfig = (appletConfigJson as Record<string, string>) || {};
+
+const metaEnv = (import.meta as any).env || {};
+
+const firebaseConfig = {
+  apiKey: (metaEnv.VITE_FIREBASE_API_KEY as string) || appletConfig.apiKey || '',
+  authDomain: (metaEnv.VITE_FIREBASE_AUTH_DOMAIN as string) || appletConfig.authDomain || '',
+  projectId: (metaEnv.VITE_FIREBASE_PROJECT_ID as string) || appletConfig.projectId || '',
+  storageBucket: (metaEnv.VITE_FIREBASE_STORAGE_BUCKET as string) || appletConfig.storageBucket || '',
+  messagingSenderId: (metaEnv.VITE_FIREBASE_MESSAGING_SENDER_ID as string) || appletConfig.messagingSenderId || '',
+  appId: (metaEnv.VITE_FIREBASE_APP_ID as string) || appletConfig.appId || '',
+  firestoreDatabaseId: (metaEnv.VITE_FIREBASE_DATABASE_ID as string) || appletConfig.firestoreDatabaseId || ''
+};
 
 const app = initializeApp(firebaseConfig);
 
 // CRITICAL: Must pass firebaseConfig.firestoreDatabaseId to getFirestore
-export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
+export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId || undefined);
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 
