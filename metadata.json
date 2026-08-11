@@ -1,0 +1,6 @@
+{
+  "name": "OmniAgent Mobile AI",
+  "description": "System-wide autonomous mobile AI agent GUI with multi-agent orchestration, predictive automation, pattern learning, app control permissions, and adaptive low-battery background persistence.",
+  "requestFramePermissions": ["camera", "microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
