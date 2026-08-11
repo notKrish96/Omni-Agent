@@ -10,6 +10,7 @@ import { JarvisLiveVisionVoice } from './components/JarvisLiveVisionVoice';
 import { ConversationHistory } from './components/ConversationHistory';
 import { McpProtocolCenter } from './components/McpProtocolCenter';
 import { CustomAiApiKeyModal } from './components/CustomAiApiKeyModal';
+import { MobilePermissionsModal } from './components/MobilePermissionsModal';
 
 import { auth, googleProvider, db, testFirestoreConnection, handleFirestoreError, OperationType } from './lib/firebase';
 import { onAuthStateChanged, signInWithPopup, signOut, User as FirebaseUser } from 'firebase/auth';
@@ -86,6 +87,7 @@ export default function App() {
   const [mcpTools, setMcpTools] = useState<McpTool[]>(INITIAL_MCP_TOOLS);
   const [mcpLogs, setMcpLogs] = useState<McpInvocationLog[]>(INITIAL_MCP_LOGS);
   const [isApiKeyModalOpen, setIsApiKeyModalOpen] = useState<boolean>(false);
+  const [isPermissionsModalOpen, setIsPermissionsModalOpen] = useState<boolean>(true);
 
   // Switch category helper
   const handleCategoryChange = (cat: 'assistant' | 'intelligence' | 'mobile_os' | 'automation_power') => {
@@ -491,6 +493,16 @@ export default function App() {
         firebaseUser={firebaseUser}
         onFirebaseSignIn={handleFirebaseSignIn}
         onFirebaseSignOut={handleFirebaseSignOut}
+        onOpenPermissionsModal={() => setIsPermissionsModalOpen(true)}
+      />
+
+      {/* Mobile OS Permissions Modal */}
+      <MobilePermissionsModal
+        isOpen={isPermissionsModalOpen}
+        onClose={() => setIsPermissionsModalOpen(false)}
+        onPermissionsUpdated={(status) => {
+          showToast(`Mobile Permissions: Mic ${status.mic ? 'Granted' : 'Pending'}, Camera ${status.camera ? 'Granted' : 'Pending'}, Location ${status.location ? 'Granted' : 'Pending'}`);
+        }}
       />
 
       {/* Custom AI Key Configuration Modal */}

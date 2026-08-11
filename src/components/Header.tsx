@@ -17,6 +17,7 @@ interface HeaderProps {
   firebaseUser: any;
   onFirebaseSignIn: () => void;
   onFirebaseSignOut: () => void;
+  onOpenPermissionsModal: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -33,7 +34,8 @@ export const Header: React.FC<HeaderProps> = ({
   isCustomKeyActive,
   firebaseUser,
   onFirebaseSignIn,
-  onFirebaseSignOut
+  onFirebaseSignOut,
+  onOpenPermissionsModal
 }) => {
   return (
     <header className="bg-slate-900 border-b border-slate-800 sticky top-0 z-40 px-4 py-3 text-slate-100 shadow-md">
@@ -120,6 +122,16 @@ export const Header: React.FC<HeaderProps> = ({
               <LogIn className="w-3 h-3" />
             </button>
           )}
+
+          {/* Permissions Modal Trigger */}
+          <button
+            onClick={onOpenPermissionsModal}
+            className="px-2.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 transition-all"
+            title="Request Location, Camera, and Microphone permissions"
+          >
+            <Smartphone className="w-3.5 h-3.5 text-indigo-400" />
+            <span>Permissions</span>
+          </button>
 
           <button
             onClick={onOpenApiKeyModal}
